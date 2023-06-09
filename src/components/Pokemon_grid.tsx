@@ -5,30 +5,48 @@ import { Pokemon } from './Pokemon_struct';
 
 export const PokemonGrid: React.FC = () => {
   const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
+  const [currentRegion, setCurrentRegion] = useState('kanto');
 
   useEffect(() => {
     const fetchPokemonData = async () => {
-      const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=151');
+      let limit: number = 0, offset: number = 0;
+      if (currentRegion === 'kanto') {
+        limit = 151;
+        offset = 0;
+      } else if (currentRegion === 'johto') {
+        limit = 100;
+        offset = 151;
+      }
+
+      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`);
       const pokemonArray: Pokemon[] = response.data.results.map((pokemon: any, index: number) => {
         return {
-          id: index + 1,
+          id: offset + index + 1,
           name: pokemon.name,
-          sprite: `https://img.pokemondb.net/sprites/black-white/normal/${pokemon.name}.png`,
+          sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${offset + index + 1}.png`,
         }
       });
       setPokemonData(pokemonArray);
     };
 
     fetchPokemonData();
-  }, []);
+  }, [currentRegion]);
+
+  const handleTabChange = (newRegion: string) => {
+    setCurrentRegion(newRegion);
+  };
 
   return (
-    <div className="pokemon-grid">
-      {pokemonData.map((pokemon) => (
-        <PokemonCard key={pokemon.id} pokemon={pokemon} />
-      ))}
+    <div>
+      <div>
+        <button onClick={() => handleTabChange('kanto')}>Kanto</button>
+        <button onClick={() => handleTabChange('johto')}>Johto</button>
+      </div>
+      <div className="pokemon-grid">
+        {pokemonData.map((pokemon) => (
+          <PokemonCard key={pokemon.id} pokemon={pokemon} />
+        ))}
+      </div>
     </div>
   );
 };
-
-export {};
