@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { PokemonCard } from './Pokemon_card';
 import { Pokemon } from './Pokemon_struct';
+import '../styles/Pokemon_grid.css';
 
 export const PokemonGrid: React.FC = () => {
   const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
@@ -16,14 +17,18 @@ export const PokemonGrid: React.FC = () => {
       } else if (currentRegion === 'johto') {
         limit = 100;
         offset = 151;
+      } else if (currentRegion === 'hoenn') {
+        limit = 136;
+        offset = 251;
       }
+       
 
       const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`);
       const pokemonArray: Pokemon[] = response.data.results.map((pokemon: any, index: number) => {
         return {
           id: offset + index + 1,
           name: pokemon.name,
-          sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${offset + index + 1}.png`,
+          sprite: `https://img.pokemondb.net/sprites/black-white/normal/${pokemon.name}.png`,
         }
       });
       setPokemonData(pokemonArray);
@@ -38,9 +43,10 @@ export const PokemonGrid: React.FC = () => {
 
   return (
     <div>
-      <div>
-        <button onClick={() => handleTabChange('kanto')}>Kanto</button>
-        <button onClick={() => handleTabChange('johto')}>Johto</button>
+      <div className="tabs">
+        <button className={currentRegion === 'kanto' ? "tab active-tab" : "tab"} onClick={() => handleTabChange('kanto')}>Kanto</button>
+        <button className={currentRegion === 'johto' ? "tab active-tab" : "tab"} onClick={() => handleTabChange('johto')}>Johto</button>
+        <button className={currentRegion === 'hoenn' ? "tab active-tab" : "tab"} onClick={() => handleTabChange('hoenn')}>Hoenn</button>
       </div>
       <div className="pokemon-grid">
         {pokemonData.map((pokemon) => (
