@@ -1,9 +1,8 @@
 export interface Pokemon {
-    id: number;
-    name: string;
-    sprite: string;
-    isUnreleased: boolean;
-  }
+  id: number;
+  name: string;
+  sprite: string;
+  isUnreleased: boolean;
+}
 
-  export {};
-  
+export {};
