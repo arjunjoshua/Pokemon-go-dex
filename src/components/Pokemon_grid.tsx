@@ -4,6 +4,7 @@ import { PokemonCard } from "./Pokemon_card";
 import { Pokemon } from "./Pokemon_struct";
 import "../styles/Pokemon_grid.css";
 import { useForm } from "react-hook-form";
+import {unreleasedPokemonIds, unreleasedShinies, Region, regionData} from "./constants"
 
 
 export const PokemonGrid: React.FC = () => {
@@ -14,27 +15,8 @@ export const PokemonGrid: React.FC = () => {
 
   useEffect(() => {
     const fetchPokemonData = async () => {
-      let limit: number = 0,
-        offset: number = 0;
-      if (currentRegion === "kanto") {
-        limit = 151;
-        offset = 0;
-      } else if (currentRegion === "johto") {
-        limit = 100;
-        offset = 151;
-      } else if (currentRegion === "hoenn") {
-        limit = 135;
-        offset = 251;
-      } else if (currentRegion === "sinnoh") {
-        limit = 107;
-        offset = 386;
-      } else if (currentRegion === "unova") {
-        limit = 156;
-        offset = 493;
-      }
+      const { limit, offset } = regionData[currentRegion as Region];
 
-      const unreleasedPokemonIds = [489, 490, 493];
-      const unreleasedShinies = [417, 422, 423, 433, 441, 455, 489, 489, 492, 493]
       const response = await axios.get(
         `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
       );
