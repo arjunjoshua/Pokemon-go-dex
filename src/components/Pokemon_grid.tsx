@@ -34,6 +34,7 @@ export const PokemonGrid: React.FC = () => {
       }
 
       const unreleasedPokemonIds = [489, 490, 493];
+      const unreleasedShinies = [417, 422, 423, 433, 441, 455, 489, 489, 492, 493]
       const response = await axios.get(
         `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
       );
@@ -45,6 +46,7 @@ export const PokemonGrid: React.FC = () => {
             name: pokemon.name,
             sprite: `https://img.pokemondb.net/sprites/black-white/normal/${pokemon.name}.png`,
             isUnreleased: unreleasedPokemonIds.includes(id),
+            shinyUnreleased: unreleasedShinies.includes(id),
           };
         }
       );

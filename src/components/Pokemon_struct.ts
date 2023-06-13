@@ -3,6 +3,7 @@ export interface Pokemon {
   name: string;
   sprite: string;
   isUnreleased: boolean;
+  shinyUnreleased: boolean;
 }
 
 export {};

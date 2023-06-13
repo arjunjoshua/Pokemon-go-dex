@@ -12,7 +12,7 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, showShiny }) 
     ? pokemon.sprite.replace("normal", "shiny")
     : pokemon.sprite;
   return (
-    <div className={`pokemon-card ${pokemon.isUnreleased ? 'unreleased' : ''}`}>
+    <div className={`pokemon-card ${pokemon.isUnreleased || pokemon.shinyUnreleased ? 'unreleased' : ''}`}>
       <img src={spriteToUse} alt={pokemon.name} />
       <p>{pokemon.name}</p>
     </div>
