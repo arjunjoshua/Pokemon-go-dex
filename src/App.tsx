@@ -1,12 +1,23 @@
-import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { PokemonGrid } from './components/Pokemon_grid';
 
-export const App: React.FC = () => {
-  return (
-    <div className="app">
-      <PokemonGrid />
-    </div>
-  );
-};
+interface RouteWrapperProps {
+  defaultRegion: string;
+}
+
+const RouteWrapper: React.FC<RouteWrapperProps> = ({ defaultRegion }) => <PokemonGrid defaultRegion={defaultRegion} />;
+
+const App = () => (
+  <Router>
+    <Routes>
+    <Route path="/kanto" element={<RouteWrapper defaultRegion="kanto" />} />
+      <Route path="/johto" element={<RouteWrapper defaultRegion="johto" />} />
+      <Route path="/hoenn" element={<RouteWrapper defaultRegion="hoenn" />} />
+      <Route path="/sinnoh" element={<RouteWrapper defaultRegion="sinnoh" />} />
+      <Route path="/unova" element={<RouteWrapper defaultRegion="unova" />} />
+      <Route path="/" element={<RouteWrapper defaultRegion="kanto" />} />
+    </Routes>
+  </Router>
+);
 
 export default App;
