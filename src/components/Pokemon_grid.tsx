@@ -4,37 +4,20 @@ import { PokemonCard } from "./Pokemon_card";
 import { Pokemon } from "./Pokemon_struct";
 import "../styles/Pokemon_grid.css";
 import { useForm } from "react-hook-form";
+import {unreleasedPokemonIds, unreleasedShinies, Region, regionData} from "./constants"
+import {Link} from 'react-router-dom'
 
 
-export const PokemonGrid: React.FC = () => {
+export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion }) => {
+  const [currentRegion, setCurrentRegion] = useState(defaultRegion);
   const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
-  const [currentRegion, setCurrentRegion] = useState("kanto");
   const { register, watch } = useForm();
   const showShiny = watch('showShiny');
 
   useEffect(() => {
     const fetchPokemonData = async () => {
-      let limit: number = 0,
-        offset: number = 0;
-      if (currentRegion === "kanto") {
-        limit = 151;
-        offset = 0;
-      } else if (currentRegion === "johto") {
-        limit = 100;
-        offset = 151;
-      } else if (currentRegion === "hoenn") {
-        limit = 135;
-        offset = 251;
-      } else if (currentRegion === "sinnoh") {
-        limit = 107;
-        offset = 386;
-      } else if (currentRegion === "unova") {
-        limit = 156;
-        offset = 493;
-      }
+      const { limit, offset } = regionData[currentRegion as Region];
 
-      const unreleasedPokemonIds = [489, 490, 493];
-      const unreleasedShinies = [417, 422, 423, 433, 441, 455, 489, 489, 492, 493]
       const response = await axios.get(
         `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
       );
@@ -64,45 +47,49 @@ export const PokemonGrid: React.FC = () => {
     <div>
       <h1 className="header">Current Released dex in Pokemon go</h1>
       <div className="tabs">
-        <button
+        <Link to="/kanto"
           className={currentRegion === "kanto" ? "tab active-tab" : "tab"}
           onClick={() => handleTabChange("kanto")}
         >
           Kanto
-        </button>
-        <button
+        </Link>
+        <Link to="/johto"
           className={currentRegion === "johto" ? "tab active-tab" : "tab"}
           onClick={() => handleTabChange("johto")}
         >
           Johto
-        </button>
-        <button
+        </Link>
+        <Link to="/hoenn"
           className={currentRegion === "hoenn" ? "tab active-tab" : "tab"}
           onClick={() => handleTabChange("hoenn")}
         >
           Hoenn
-        </button>
-        <button
+        </Link>
+        <Link to="/sinnoh"
           className={currentRegion === "sinnoh" ? "tab active-tab" : "tab"}
           onClick={() => handleTabChange("sinnoh")}
         >
           Sinnoh
-        </button>
-        <button
+        </Link>
+        <Link to="/unova"
           className={currentRegion === "unova" ? "tab active-tab" : "tab"}
           onClick={() => handleTabChange("unova")}
         >
           Unova
-        </button>
+        </Link>
       </div>
       <form className="shinyCheckbox">
         <label htmlFor="showShiny">Show shiny eligible pokemon</label>
         <input type="checkbox" {...register("showShiny")}/>
       </form>
-      <div className="pokemon-grid">
-        {pokemonData.map((pokemon) => (
-          <PokemonCard key={pokemon.id} pokemon={pokemon} showShiny={showShiny} />
-        ))}
+      <div className="container">
+        <div className="row">
+          {pokemonData.map((pokemon) => (
+            <div className="col-sm-9 col-md-6 col-lg-4">
+              <PokemonCard key={pokemon.id} pokemon={pokemon} showShiny={showShiny} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
