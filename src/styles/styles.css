@@ -1,7 +1,7 @@
 .pokemon-grid {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
-    gap: 1em;
+    gap: 0.5em;
   }
   
   .pokemon-card {
@@ -9,7 +9,7 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    background-color: rgb(187, 187, 197);
+    background-color: rgba(125, 184, 218, 0.981);
   }
   
   .pokemon-card img {

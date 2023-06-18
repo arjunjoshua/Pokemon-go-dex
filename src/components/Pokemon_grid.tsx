@@ -82,15 +82,11 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
         <label htmlFor="showShiny">Show shiny eligible pokemon</label>
         <input type="checkbox" {...register("showShiny")}/>
       </form>
-      <div className="container">
-        <div className="row">
+      <div className="pokemon-grid">
           {pokemonData.map((pokemon) => (
-            <div className="col-sm-9 col-md-6 col-lg-4">
               <PokemonCard key={pokemon.id} pokemon={pokemon} showShiny={showShiny} />
-            </div>
           ))}
         </div>
       </div>
-    </div>
   );
 };
