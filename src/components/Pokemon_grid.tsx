@@ -21,17 +21,25 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
       const response = await axios.get(
         `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
       );
-      const pokemonArray: Pokemon[] = response.data.results.map(
-        (pokemon: any, index: number) => {
+      const pokemonArray: Pokemon[] = await Promise.all(
+        response.data.results.map(async (pokemon: any, index: number) => {
           const id = offset + index + 1;
+          
+          // fetch individual pokemon data to get types
+          const pokemonResponse = await axios.get(pokemon.url);
+          const pokemonData = pokemonResponse.data;
+      
           return {
             id: id,
             name: pokemon.name,
             sprite: `https://img.pokemondb.net/sprites/black-white/normal/${pokemon.name}.png`,
             isUnreleased: unreleasedPokemonIds.includes(id),
             shinyUnreleased: unreleasedShinies.includes(id),
+            types: pokemonData.types 
+              ? pokemonData.types.map((typeObj: any) => ({ name: typeObj.type.name })) 
+              : [],
           };
-        }
+        })
       );
       setPokemonData(pokemonArray);
     };
