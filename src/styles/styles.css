@@ -15,6 +15,7 @@
   .pokemon-card img {
     width: 50px;
     height: 50px;
+    align-content: flex-start;
   }
   
   .pokemon-card h2 {
@@ -26,80 +27,86 @@
     opacity: 0.5;
 }
 
-.pokemon-type {
-  padding: 5px;
-  color: white;
-  border-radius: 5px;
+.pokemon-card .types {
+  display: flex;
+  justify-content: space-around;
 }
 
-.pokemon-type.poison {
+.pokemon-card .types .type {
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+  text-size-adjust: auto;
+}
+
+.pokemon-card .types .type-poison {
   background-color: rgb(145, 27, 145);
 }
 
-.pokemon-type.fire {
+.pokemon-card .types .type-fire {
   background-color: rgb(222, 151, 18);
 }
 
-.pokemon-type.water {
+.pokemon-card .types .type-water {
   background-color: rgb(20, 133, 174);
 }
 
-.pokemon-type.grass {
+.pokemon-card .types .type-grass {
   background-color: rgb(32, 162, 32);
 }
 
-.pokemon-type.ghost{
+.pokemon-card .types .type-ghost{
   background-color: rgb(54, 37, 110);
 }
 
-.pokemon-type.electric {
+.pokemon-card .types .type-electric {
   background-color: rgb(213, 213, 18);
 }
 
-.pokemon-type.dark {
-  background-color: rgb(36, 8, 8);
+.pokemon-card .types .type-dark {
+  background-color: rgb(103, 88, 88);
 }
 
-.pokemon-type.fairy {
+.pokemon-card .types .type-fairy {
   background-color: rgb(232, 6, 198);
 }
 
-.pokemon-type.fighting {
+.pokemon-card .types .type-fighting {
   background-color: rgb(246, 28, 28);
 }
 
-.pokemon-type.dragon {
+.pokemon-card .types .type-dragon {
   background-color: rgb(52, 75, 223);
 }
 
-.pokemon-type.steel {
+.pokemon-card .types .type-steel {
   background-color: rgba(145, 147, 126, 0.864);
 }
 
-.pokemon-type.bug {
+.pokemon-card .types .type-bug {
  background-color: rgb(58, 195, 87);
 }
 
-.pokemon-type.flying {
-  background-color: rgb(148, 201, 218);
+.pokemon-card .types .type-flying {
+  background-color: rgb(98, 206, 242);
 }
 
-.pokemon-type.ice {
+.pokemon-card .types .type-ice {
   background-color: rgb(8, 238, 238);
 }
 
-.pokemon-type.normal {
+.pokemon-card .types .type-normal {
   background-color: rgb(145, 145, 145);
 }
 
-.pokemon-type.psychic {
+.pokemon-card .types .type-psychic {
   background-color: rgb(192, 81, 151);
 }
 
-.pokemon-type.rock {
+.pokemon-card .types .type-rock {
   background-color: rgba(205, 148, 88, 0.711);
 }
 
-.pokemon-type.ground {
+.pokemon-card .types .type-ground {
   background-color: rgb(231, 146, 27);
 }
