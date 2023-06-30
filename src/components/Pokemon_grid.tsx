@@ -18,6 +18,13 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
     const fetchPokemonData = async () => {
       const { limit, offset } = regionData[currentRegion as Region];
 
+      // Try to load data from local storage
+      const cachedData = localStorage.getItem(`pokemonData-${currentRegion}`);
+      if (cachedData) {
+        setPokemonData(JSON.parse(cachedData));
+        return; // don't fetch new data if cached data exists
+      }
+
       const response = await axios.get(
         `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
       );
@@ -41,6 +48,9 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
           };
         })
       );
+      
+      // Store data in local storage
+      localStorage.setItem(`pokemonData-${currentRegion}`, JSON.stringify(pokemonArray));
       setPokemonData(pokemonArray);
     };
 
