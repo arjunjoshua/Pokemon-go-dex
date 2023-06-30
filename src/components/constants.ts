@@ -17,7 +17,8 @@ export enum Region {
     Hoenn = "hoenn",
     Sinnoh = "sinnoh",
     Unova = "unova",
-    Kalos = "kalos"
+    Kalos = "kalos",
+    Alola = "alola"
   }
   
 export const regionData = {
@@ -26,7 +27,8 @@ export const regionData = {
     [Region.Hoenn]: { limit: 135, offset: 251 },
     [Region.Sinnoh]: { limit: 107, offset: 386 },
     [Region.Unova]: { limit: 156, offset: 493 },
-    [Region.Kalos]: { limit: 72, offset: 649 }
+    [Region.Kalos]: { limit: 72, offset: 649 },
+    [Region.Alola]: { limit: 88, offset: 721 }
   };
   
 export{};

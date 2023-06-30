@@ -39,8 +39,12 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
           let sprite: string;
           if (id < 650)
            sprite = `https://img.pokemondb.net/sprites/black-white/normal/${pokemon.name}.png`;
-          else
+          else if (id < 722)
            sprite = `https://img.pokemondb.net/sprites/x-y/normal/${pokemon.name}.png`;
+          else if (id > 802 && id < 810)
+            sprite = `https://img.pokemondb.net/sprites/ultra-sun-ultra-moon/normal/${pokemon.name}.png`;
+          else
+            sprite = `https://img.pokemondb.net/sprites/sun-moon/normal/${pokemon.name}.png`;
       
           return {
             id: id,
@@ -106,6 +110,12 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
           onClick={() => handleTabChange("kalos")}
         >
           Kalos
+        </Link>
+        <Link to="/alola"
+          className={currentRegion === "alola" ? "tab active-tab" : "tab"} 
+          onClick={() => handleTabChange("alola")}
+        >
+          Alola 
         </Link>
       </div>
       <form className="shinyCheckbox">
