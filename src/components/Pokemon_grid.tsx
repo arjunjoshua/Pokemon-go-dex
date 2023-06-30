@@ -35,11 +35,17 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
           // fetch individual pokemon data to get types
           const pokemonResponse = await axios.get(pokemon.url);
           const pokemonData = pokemonResponse.data;
+
+          let sprite: string;
+          if (id < 650)
+           sprite = `https://img.pokemondb.net/sprites/black-white/normal/${pokemon.name}.png`;
+          else
+           sprite = `https://img.pokemondb.net/sprites/x-y/normal/${pokemon.name}.png`;
       
           return {
             id: id,
             name: pokemon.name,
-            sprite: `https://img.pokemondb.net/sprites/black-white/normal/${pokemon.name}.png`,
+            sprite: sprite,
             isUnreleased: unreleasedPokemonIds.includes(id),
             shinyUnreleased: unreleasedShinies.includes(id),
             types: pokemonData.types 
@@ -94,6 +100,12 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
           onClick={() => handleTabChange("unova")}
         >
           Unova
+        </Link>
+        <Link to="/kalos"
+          className={currentRegion === "kalos" ? "tab active-tab" : "tab"}
+          onClick={() => handleTabChange("kalos")}
+        >
+          Kalos
         </Link>
       </div>
       <form className="shinyCheckbox">

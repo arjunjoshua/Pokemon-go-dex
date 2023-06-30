@@ -15,6 +15,7 @@ const App = () => (
       <Route path="/hoenn" element={<RouteWrapper defaultRegion="hoenn" />} />
       <Route path="/sinnoh" element={<RouteWrapper defaultRegion="sinnoh" />} />
       <Route path="/unova" element={<RouteWrapper defaultRegion="unova" />} />
+      <Route path="/kalos" element={<RouteWrapper defaultRegion="kalos" />} />
       <Route path="/" element={<RouteWrapper defaultRegion="kanto" />} />
     </Routes>
   </Router>
