@@ -105,6 +105,7 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
               <PokemonCard key={pokemon.id} pokemon={pokemon} showShiny={showShiny} />
           ))}
         </div>
+        <button className="btn_top" onClick={() => window.scrollTo(0, 0)}>Scroll to top</button>
       </div>
   );
 };
