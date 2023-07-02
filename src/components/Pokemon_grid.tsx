@@ -18,12 +18,12 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
     const fetchPokemonData = async () => {
       const { limit, offset } = regionData[currentRegion as Region];
 
-      // Try to load data from local storage
+      /* Try to load data from local storage
       const cachedData = localStorage.getItem(`pokemonData-${currentRegion}`);
       if (cachedData) {
         setPokemonData(JSON.parse(cachedData));
         return; // don't fetch new data if cached data exists
-      }
+      } */
 
       const response = await axios.get(
         `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
@@ -41,10 +41,12 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
            sprite = `https://img.pokemondb.net/sprites/black-white/normal/${pokemon.name}.png`;
           else if (id < 722)
            sprite = `https://img.pokemondb.net/sprites/x-y/normal/${pokemon.name}.png`;
-          else if (id > 802 && id < 810)
+           else if (id < 803)
+           sprite = `https://img.pokemondb.net/sprites/sun-moon/normal/${pokemon.name}.png`;
+          else if (id < 808)
             sprite = `https://img.pokemondb.net/sprites/ultra-sun-ultra-moon/normal/${pokemon.name}.png`;
           else
-            sprite = `https://img.pokemondb.net/sprites/sun-moon/normal/${pokemon.name}.png`;
+            sprite = `https://img.pokemondb.net/sprites/sword-shield/normal/${pokemon.name}.png`;
       
           return {
             id: id,
