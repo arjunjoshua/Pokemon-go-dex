@@ -4,8 +4,9 @@ import { PokemonCard } from "./Pokemon_card";
 import { Pokemon } from "./Pokemon_struct";
 import "../styles/Pokemon_grid.css";
 import { useForm } from "react-hook-form";
-import {unreleasedPokemonIds, unreleasedShinies, Region, regionData} from "./constants"
-import {Link} from 'react-router-dom'
+import {unreleasedPokemonIds, unreleasedShinies, Region, regionData} from "./constants";
+import {Link} from 'react-router-dom';
+import { getSpriteUrl, getPokemonSpriteName } from "../utils/spriteLogic";
 
 
 export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion }) => {
@@ -18,6 +19,13 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
     const fetchPokemonData = async () => {
       const { limit, offset } = regionData[currentRegion as Region];
 
+      /* Try to load data from local storage
+      const cachedData = localStorage.getItem(`pokemonData-${currentRegion}`);
+      if (cachedData) {
+        setPokemonData(JSON.parse(cachedData));
+        return; // don't fetch new data if cached data exists
+      } */
+
       const response = await axios.get(
         `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
       );
@@ -28,11 +36,14 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
           // fetch individual pokemon data to get types
           const pokemonResponse = await axios.get(pokemon.url);
           const pokemonData = pokemonResponse.data;
+
+          let spriteName = getPokemonSpriteName(pokemon.name);
+          let sprite = getSpriteUrl(id) + spriteName + ".png";
       
           return {
             id: id,
             name: pokemon.name,
-            sprite: `https://img.pokemondb.net/sprites/black-white/normal/${pokemon.name}.png`,
+            sprite: sprite,
             isUnreleased: unreleasedPokemonIds.includes(id),
             shinyUnreleased: unreleasedShinies.includes(id),
             types: pokemonData.types 
@@ -41,6 +52,9 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
           };
         })
       );
+      
+      // Store data in local storage
+      localStorage.setItem(`pokemonData-${currentRegion}`, JSON.stringify(pokemonArray));
       setPokemonData(pokemonArray);
     };
 
@@ -85,6 +99,24 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
         >
           Unova
         </Link>
+        <Link to="/kalos"
+          className={currentRegion === "kalos" ? "tab active-tab" : "tab"}
+          onClick={() => handleTabChange("kalos")}
+        >
+          Kalos
+        </Link>
+        <Link to="/alola"
+          className={currentRegion === "alola" ? "tab active-tab" : "tab"} 
+          onClick={() => handleTabChange("alola")}
+        >
+          Alola 
+        </Link>
+        <Link to="/galar"
+          className={currentRegion === "galar" ? "tab active-tab" : "tab"}
+          onClick={() => handleTabChange("galar")}
+        >
+          Galar
+        </Link>
       </div>
       <form className="shinyCheckbox">
         <label htmlFor="showShiny">Show shiny eligible pokemon</label>
@@ -95,6 +127,7 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
               <PokemonCard key={pokemon.id} pokemon={pokemon} showShiny={showShiny} />
           ))}
         </div>
+        <button className="btn_top" onClick={() => window.scrollTo(0, 0)}>Scroll to top</button>
       </div>
   );
 };
