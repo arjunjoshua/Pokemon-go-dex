@@ -4,8 +4,9 @@ import { PokemonCard } from "./Pokemon_card";
 import { Pokemon } from "./Pokemon_struct";
 import "../styles/Pokemon_grid.css";
 import { useForm } from "react-hook-form";
-import {unreleasedPokemonIds, unreleasedShinies, Region, regionData} from "./constants"
-import {Link} from 'react-router-dom'
+import {unreleasedPokemonIds, unreleasedShinies, Region, regionData} from "./constants";
+import {Link} from 'react-router-dom';
+import { getSpriteUrl, getPokemonSpriteName } from "../utils/spriteLogic";
 
 
 export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion }) => {
@@ -36,17 +37,8 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
           const pokemonResponse = await axios.get(pokemon.url);
           const pokemonData = pokemonResponse.data;
 
-          let sprite: string;
-          if (id < 650)
-           sprite = `https://img.pokemondb.net/sprites/black-white/normal/${pokemon.name}.png`;
-          else if (id < 722)
-           sprite = `https://img.pokemondb.net/sprites/x-y/normal/${pokemon.name}.png`;
-           else if (id < 803)
-           sprite = `https://img.pokemondb.net/sprites/sun-moon/normal/${pokemon.name}.png`;
-          else if (id < 808)
-            sprite = `https://img.pokemondb.net/sprites/ultra-sun-ultra-moon/normal/${pokemon.name}.png`;
-          else
-            sprite = `https://img.pokemondb.net/sprites/sword-shield/normal/${pokemon.name}.png`;
+          let spriteName = getPokemonSpriteName(pokemon.name);
+          let sprite = getSpriteUrl(id) + spriteName + ".png";
       
           return {
             id: id,
@@ -118,6 +110,12 @@ export const PokemonGrid: React.FC<{ defaultRegion: string }> = ({ defaultRegion
           onClick={() => handleTabChange("alola")}
         >
           Alola 
+        </Link>
+        <Link to="/galar"
+          className={currentRegion === "galar" ? "tab active-tab" : "tab"}
+          onClick={() => handleTabChange("galar")}
+        >
+          Galar
         </Link>
       </div>
       <form className="shinyCheckbox">
